@@ -5,7 +5,7 @@ const { User, Thought } = require('../models');
 module.exports = {
   // Get all Users
   getUsers(req,res) {
-    User.find().select('__v').populate('friends').populate('thoughts')
+    User.find()
     .then((userData) => {
       res.json(userData);
     })

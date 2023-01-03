@@ -40,10 +40,10 @@ const userSchema = new Schema(
 
 // Create viturla property 'friendCount' that gets the number of friends the user has
 userSchema.virtual('friendCount').get(function () {
-  return this.friends.length
+  return this.friends.length;
 });
 
 // use the mongoose.model() to compile a model based on the schema
-const User = model('user', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;
