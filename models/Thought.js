@@ -1,52 +1,32 @@
 const { Schema, Types } = require('mongoose');
-
-const reactionSchema = new mongoose.Schema(
-  {
-    reactionId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId()
-    },
-    reactionBody: {
-      type: String,
-      required: true,
-      maxLength: 280
-    },
-    username: {
-      type: String,
-      required: true,
-    },
-    createdAt: {
-      type: Date,
-      default: () => new Date(+new Date() + 84 * 24 * 60 * 60 * 1000),
-    },
-
-  }
-);
-
+const reactionSchema = require('./Reaction');
+const datFormat = require('../utils/dateFormat');
 
 //Construct a new instance of the schema class
 const thoughtSchema = new mongoose.Schema(
   {
-    reactionId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
-    reactionBody: {
+    thoughtText: {
       type: String,
       required: true,
-      maxlength: 280,
+      minLength: 1,
+      maxLength: 280,
     },
     username: {
       type: String,
       required: true,
     },
-    reaction: [reactionSchema],
     createdAt: {
       type: Date,
-      default: Date.now,
+      get: timestamp => dateFormat(timestamp),
     },
+    reactions: [reactionSchema],
   }
 );
+
+// Create virtual to get number of reactions
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
+})
 
 //Use mongoose.model() to compile a model based on the schema
 const Thought = mongoose.model('Thought', thoughtSchema);

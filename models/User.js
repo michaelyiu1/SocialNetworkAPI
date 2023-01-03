@@ -18,15 +18,30 @@ const userSchema = new mongoose.Schema(
       max_length: 50,
       match: /.+\@.+\..+/,
     },
-    thoughts: [thoughtSchema],
-    friends: [userSchema],
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Thought'
+      }
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
   },
   {
     toJSON: {
-      getters: true,
+      virtuals: true,
     },
   }
 );
+
+// Create viturla property 'friendCount' that gets the number of friends the user has
+userSchema.virtual('friendCount').get(function () {
+  return this.friends.length
+});
 
 // use the mongoose.model() to compile a model based on the schema
 const User = mongoose.model('user', userSchema);
