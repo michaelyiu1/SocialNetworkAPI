@@ -1,9 +1,9 @@
-const { Schema, Types } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
 const reactionSchema = require('./Reaction');
 const datFormat = require('../utils/dateFormat');
 
 //Construct a new instance of the schema class
-const thoughtSchema = new mongoose.Schema(
+const thoughtSchema = new Schema(
   {
     thoughtText: {
       type: String,
@@ -29,6 +29,6 @@ thoughtSchema.virtual('reactionCount').get(function () {
 })
 
 //Use mongoose.model() to compile a model based on the schema
-const Thought = mongoose.model('Thought', thoughtSchema);
+const Thought = model('Thought', thoughtSchema);
 
 module.exports = Thought;

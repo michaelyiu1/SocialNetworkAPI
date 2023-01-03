@@ -22,6 +22,25 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
+  //Update Thought
+  updateThought(req,res) {
+    Thought.findOneAndUpdate(
+      {_id: req.params.thoughtId},
+      {$set: req.body},
+      {runValidators: true}
+      )
+      .then((thought) => {
+        if(!thought){
+          return res.status(404).json({message: 'no thought found'})
+        };
+        res.json(thought);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+
   //Create a thought
   createThought(req,res) {
     Thought.create(req.body)

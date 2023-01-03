@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const thoughtSchema = require('./Thought');
 
 // Schema to create Student model
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     username: {
       type: String,
@@ -44,6 +44,6 @@ userSchema.virtual('friendCount').get(function () {
 });
 
 // use the mongoose.model() to compile a model based on the schema
-const User = mongoose.model('user', userSchema);
+const User = model('user', userSchema);
 
 module.exports = User;
